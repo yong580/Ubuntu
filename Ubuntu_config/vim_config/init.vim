@@ -1,4 +1,4 @@
-"按键设置
+
 let mapleader ="\<space>"
 imap jk <Esc> 
 "NERDTreeToggle打开快捷键
@@ -12,12 +12,15 @@ map! <C-A> <Esc>ggVGY
 map <leader>r :VimspectorReset<CR>
 "快速打开manpage"
 nmap <C-k> :Man<CR>
+"批量修改"
+map <leader>rn :CocCommand document.renameCurrentWord<CR>
 
-"vim快速切换页面"
+"vim快速切换缓冲区的页面"
 map <leader>u :bp<CR>
 map <leader>n :bn<CR>
 
-"切换跳转的页面"
+nnoremap <leader>cd :CocCommand <CR>
+"切换跳转的页面,用于上标签栏的页面"
 map <leader>[ : tabnext<CR>
 map <leader>] : tabprevious<CR>
 "快速新建vim页面"
@@ -43,19 +46,21 @@ map <C-s> :w<space>
 "
 ":Toc "显示目录（定义为leader+d）
 "快速预览快捷键
-map <leader>y :MarkdownPreview<CR>
+""map <leader>y :MarkdownPreview<CR>
 "退出预览模式
-map <leader>b :MarkdownPreviewStop<CR>
+""map <leader>b :MarkdownPreviewStop<CR>
 "快速显示markdown目录"
-map <leader>m :Toc<CR>
+""map <leader>m :Toc<CR>
+
 
 " ====基础设置====
 " Line Numbers
-set relativenumber
+"set relativenumber
 
 "语法高亮
  syntax on
-
+"支持鼠标"
+set mouse=a
 
 "凸显当前行
 set cursorline
@@ -165,13 +170,35 @@ func SetTitle()
     autocmd BufNewFile * normal G
 endfunc 
 
+
+let g:UltiSnipsSnippetDirectories= ["~/.config/nvim/my_snippets"]
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+let g:neosnippet#enable_snipmate_compatibility = 1
 "====plugins begin====
-call plug#begin('~/vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
+"underline the word"
+" Plug 'itchyny/vim-cursorword'
+" terminal
+Plug 'skywind3000/vim-terminal-help'
+" file finder
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 "file explorer
 Plug 'scrooloose/nerdtree'
 "highlight
 Plug 'cateduo/vsdark.nvim'
-"根据语义进行高亮显示
+"根据语义进行高亮显示,具体看插件配置
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 " debug
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --all'} 
@@ -193,10 +220,51 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 "代码对齐indentline"
 Plug 'yggdroot/indentline'
+""snippets"
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:deoplete#enable_at_startup = 1
+"
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
 call plug#end()
 "====plugins   end====
 
 "各对应插件配置↓
+"====terminal===="
+let g:terminal_key = '<M-=>'
+" ==== Yggdroot/LeaderF ====
+let g:Lf_WindowPosition='right'
+let g:Lf_PreviewInPopup=1
+let g:Lf_CommandMap = {
+\   '<C-p>': ['<C-k>'],
+\   '<C-k>': ['<C-p>'],
+\   '<C-j>': ['<C-n>']
+\}
+nmap <leader>f :Leaderf file<CR>
+nmap <leader>b :Leaderf! buffer<CR>
+nmap <leader>F :Leaderf rg<CR>
+let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
+
+"====copilot====
+"表示xml文件不使用copilot
+ let g:copilot_filetypes = {
+ \ 'xml': v:false,
+ \ }
+"copilot快捷键"
+"补全建议,使用<C-J>键，不使用tab键
+imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+"ctrl+]取消此次建议"
+"alt+\显示被取消的建议"
+"alt+]下一个建议"
+"alt+[上一个建议"
+
 
 "====indentline===="
 "开启下面一句对齐线变为白色
@@ -215,7 +283,6 @@ colorscheme vsdark
 
 
 " ==== jackguo380/vim-lsp-cxx-highlight ====
-
 hi default link LspCxxHlSymFunction cxxFunction
 hi default link LspCxxHlSymFunctionParameter cxxParameter
 hi default link LspCxxHlSymFileVariableStatic cxxFileVariableStatic
@@ -230,7 +297,6 @@ hi default link LspCxxHlSymMacro cxxMacro
 hi default link LspCxxHlSymEnumMember cxxEnumMember
 hi default link LspCxxHlSymParameter cxxParameter
 hi default link LspCxxHlSymClass cxxTypeAlias
-
 
 "vim-rainbow 配置"
 "只配置某些文件使用
@@ -291,31 +357,54 @@ let g:coc_global_extensions = [
       \ 'coc-vimlsp',
       \ 'coc-cmake',
       \ 'coc-highlight',
-      \ 'coc-pyright'
+	  \ 'coc-python',
+      \ 'coc-pyright',
+	  \ 'coc-prettier',
+	  \ 'coc-translator',
+	  \ 'coc-marketplace'
       \ ]
 
 "coc setting
 set signcolumn=number
+
+"coc-translator setting"
+" NOTE: do NOT use `nore` mappings
+" popup
+nmap <Leader>t <Plug>(coc-translator-p)
+vmap <Leader>t <Plug>(coc-translator-pv)
+" echo
+nmap <Leader>e <Plug>(coc-translator-e)
+vmap <Leader>e <Plug>(coc-translator-ev)
+" replace
+nmap <Leader>r <Plug>(coc-translator-r)
+vmap <Leader>r <Plug>(coc-translator-rv)
+"=======补全相关start=========="
 " <TAB> to select candidate forward or
 " pump completion candidate
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-" <s-TAB> to select candidate backward
-inoremap <expr><s-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort
-  let col = col('.')-1
-  return !col || getline('.')[col - 1] =~# '\s'
-endfunction
+" <C-p> to select candidate backward
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" <CR> to comfirm selected candidate
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" <C-y> to comfirm selected candidate
 " only when there's selected complete item
 if exists('*complete_info')
-  inoremap <silent><expr> <CR> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+"  inoremap <silent><expr> <CR> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
+ endif
+"================补全相关end===================="
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if(index(['vim', 'help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -327,9 +416,12 @@ function! s:show_documentation()
 endfunction
 
 " highlight link CocHighlightText Visual
-" autocmd CursorHold * silent call CocActionAsync('highlight')   " TODO
+ autocmd CursorHold * silent call CocActionAsync('highlight')   
 
-nmap <leader>rn <Plug>(coc-rename)
+"快速批量重命名"
+nmap <leader>rr <Plug>(coc-rename)
+"块格式化"
+nmap <leader>fm gg=G
 xmap <leader>f <Plug>(coc-format-selected)
 command! -nargs=0 Format :call CocAction('format')
 
@@ -343,6 +435,7 @@ augroup end
 nnoremap <silent><nowait> <LEADER>d :CocList diagnostics<CR>
 nmap <silent> <LEADER>- <Plug>(coc-diagnostic-prev)
 nmap <silent> <LEADER>= <Plug>(coc-diagnostic-next)
+"修复错误"
 nmap <LEADER>qf <Plug>(coc-fix-current)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
@@ -364,6 +457,9 @@ nmap <silent> gD :tab sp<CR><Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+"prettier配置"
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
 "定义一个函数查找路径中有没有Cmake文件，找到的话自动生成编译需要的头文件,就不会报找不到头文件的错误了，只需要执行下面定义的Gcmake即可调用此函数
 "如果是makefile项目的话，使用bear工具生成即可，cocconfig文件中说明了编译头文件路径的位置，生成的compile_commands.json也应该放在此目录下"

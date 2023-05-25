@@ -22,15 +22,19 @@ map <leader>n :bn<CR>
 nnoremap <leader>cd :CocCommand <CR>
 "切换跳转的页面,用于上标签栏的页面"
 map <leader>[ : tabnext<CR>
-map <leader>] : tabprevious<CR>
-"快速新建vim页面"
-map <C-n> :tabnew<CR>
+map <leader>] : tiabprevious<CR>
+"快速新建vim页面"i
+map <C-n> :tabnewi<CR>
 "另存为的快捷键"
-map <C-s> :w<space>
-"=====markdown 快捷键"
-"[[ "跳转上一个标题
+map <C-s> :w<spacie>
+"光标闪烁"
+"公用剪切板"
+set clipboard=unnamedplus
+
+"=====markdown 快i捷键"
+"[[ "跳转上一个标i题
 "
-"]] "跳转下一个标题
+"]] "跳转下一个标i题
 "
 "]c "跳转到当前标题
 "
@@ -58,7 +62,7 @@ map <C-s> :w<space>
 "set relativenumber
 
 "语法高亮
- syntax on
+syntax on
 "支持鼠标"
 set mouse=a
 
@@ -133,41 +137,41 @@ inoremap < <><LEFT>
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
 func SetTitle() 
-    "如果文件类型为.sh文件 
-    if &filetype == 'sh' 
-        call setline(1,"\#########################################################################") 
-        call append(line("."), "\# File Name: ".expand("%")) 
-        call append(line(".")+1, "\#     Author: Yong") 
-        call append(line(".")+2, "\#     Mail: 1412202849@qq.com") 
-        call append(line(".")+3, "\# Created Time: ".strftime("%c")) 
-        call append(line(".")+4, "\#########################################################################") 
-        call append(line(".")+5, "\#!/bin/bash") 
-        call append(line(".")+6, "") 
-    else 
-        call setline(1, "/*************************************************************************") 
-        call append(line("."), "    > File Name: ".expand("%")) 
-        call append(line(".")+1, "    > Author: Yong") 
-        call append(line(".")+2, "    > Mail: 1412202849@qq.com") 
-        call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
-        call append(line(".")+4, " ************************************************************************/") 
-        call append(line(".")+5, "")
-    endif
-    if &filetype == 'cpp'
-        call append(line(".")+6, "#include<iostream>")
-        call append(line(".")+7, "using namespace std;")
-        call append(line(".")+8, "")
-    endif
-    if &filetype == 'c'
-        call append(line(".")+6, "#include<stdio.h>")
+	"如果文件类型为.sh文件 
+	if &filetype == 'sh' 
+		call setline(1,"\#########################################################################") 
+		call append(line("."), "\# File Name: ".expand("%")) 
+		call append(line(".")+1, "\#     Author: Yong") 
+		call append(line(".")+2, "\#     Mail: 1412202849@qq.com") 
+		call append(line(".")+3, "\# Created Time: ".strftime("%c")) 
+		call append(line(".")+4, "\#########################################################################") 
+		call append(line(".")+5, "\#!/bin/bash") 
+		call append(line(".")+6, "") 
+	else 
+		call setline(1, "/*************************************************************************") 
+		call append(line("."), "    > File Name: ".expand("%")) 
+		call append(line(".")+1, "    > Author: Yong") 
+		call append(line(".")+2, "    > Mail: 1412202849@qq.com") 
+		call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
+		call append(line(".")+4, " ************************************************************************/") 
+		call append(line(".")+5, "")
+	endif
+	if &filetype == 'cpp'
+		call append(line(".")+6, "#include<iostream>")
+		call append(line(".")+7, "using namespace std;")
+		call append(line(".")+8, "")
+	endif
+	if &filetype == 'c'
+		call append(line(".")+6, "#include<stdio.h>")
 		call append(line(".")+7, "#include <stdlib.h>")
 		call append(line(".")+8, "#include <string.h>")
 		call append(line(".")+9, "#include <unistd.h>")
 		call append(line(".")+10, "#include <errno.h>")
 		call append(line(".")+11, "#include <pthread.h>")
-        call append(line(".")+12, "")
-    endif
-    "新建文件后，自动定位到文件末尾
-    autocmd BufNewFile * normal G
+		call append(line(".")+12, "")
+	endif
+	"新建文件后，自动定位到文件末尾
+	autocmd BufNewFile * normal G
 endfunc 
 
 
@@ -182,14 +186,16 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " For conceal markers.
 if has('conceal')
-  set conceallevel=2 concealcursor=niv
+	set conceallevel=2 concealcursor=niv
 endif
 
 let g:neosnippet#enable_snipmate_compatibility = 1
 "====plugins begin====
 call plug#begin('~/.config/nvim/plugged')
+"多行编辑"
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 "underline the word"
-" Plug 'itchyny/vim-cursorword'
+Plug 'itchyny/vim-cursorword'
 " terminal
 Plug 'skywind3000/vim-terminal-help'
 " file finder
@@ -212,7 +218,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "vim-gitgutter
 Plug 'airblade/vim-gitgutter'
- "必要插件，安装在vim-markdown前面
+"必要插件，安装在vim-markdown前面
 Plug 'godlygeek/tabular'
 "vim-markdown"
 Plug 'plasticboy/vim-markdown'
@@ -236,16 +242,18 @@ call plug#end()
 "====plugins   end====
 
 "各对应插件配置↓
+"vim-visual-multi
+
 "====terminal===="
 let g:terminal_key = '<M-=>'
 " ==== Yggdroot/LeaderF ====
 let g:Lf_WindowPosition='right'
 let g:Lf_PreviewInPopup=1
 let g:Lf_CommandMap = {
-\   '<C-p>': ['<C-k>'],
-\   '<C-k>': ['<C-p>'],
-\   '<C-j>': ['<C-n>']
-\}
+			\   '<C-p>': ['<C-k>'],
+			\   '<C-k>': ['<C-p>'],
+			\   '<C-j>': ['<C-n>']
+			\}
 nmap <leader>f :Leaderf file<CR>
 nmap <leader>b :Leaderf! buffer<CR>
 nmap <leader>F :Leaderf rg<CR>
@@ -253,9 +261,9 @@ let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
 
 "====copilot====
 "表示xml文件不使用copilot
- let g:copilot_filetypes = {
- \ 'xml': v:false,
- \ }
+let g:copilot_filetypes = {
+			\ 'xml': v:false,
+			\ }
 "copilot快捷键"
 "补全建议,使用<C-J>键，不使用tab键
 imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
@@ -304,11 +312,11 @@ hi default link LspCxxHlSymClass cxxTypeAlias
 let g:rainbow_active = 1
 
 let g:rainbow_load_separately = [
-    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
-    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
-    \ ]
+			\ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+			\ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
+			\ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
+			\ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
+			\ ]
 
 let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['lightblue', 'lightgreen', 'yellow', 'red', 'magenta']
@@ -350,19 +358,19 @@ let g:NERDToggleCheckAllLines = 1
 "===='neoclide/coc.nvim====
 " coc extensions
 let g:coc_global_extensions = [
-      \ 'coc-json',
-      \ 'coc-tsserver',
-      \ 'coc-css',
-      \ 'coc-html',
-      \ 'coc-vimlsp',
-      \ 'coc-cmake',
-      \ 'coc-highlight',
-	  \ 'coc-python',
-      \ 'coc-pyright',
-	  \ 'coc-prettier',
-	  \ 'coc-translator',
-	  \ 'coc-marketplace'
-      \ ]
+			\ 'coc-json',
+			\ 'coc-tsserver',
+			\ 'coc-css',
+			\ 'coc-html',
+			\ 'coc-vimlsp',
+			\ 'coc-cmake',
+			\ 'coc-highlight',
+			\ 'coc-python',
+			\ 'coc-pyright',
+			\ 'coc-prettier',
+			\ 'coc-translator',
+			\ 'coc-marketplace'
+			\ ]
 
 "coc setting
 set signcolumn=number
@@ -382,41 +390,41 @@ vmap <Leader>r <Plug>(coc-translator-rv)
 " <TAB> to select candidate forward or
 " pump completion candidate
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+			\ coc#pum#visible() ? coc#pum#next(1) :
+			\ CheckBackspace() ? "\<Tab>" :
+			\ coc#refresh()
 " <C-p> to select candidate backward
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 " <C-y> to comfirm selected candidate
 " only when there's selected complete item
 if exists('*complete_info')
-"  inoremap <silent><expr> <CR> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
- endif
+	"  inoremap <silent><expr> <CR> complete_info(['selected'])['selected'] != -1 ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 "================补全相关end===================="
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 function! s:show_documentation()
-  if(index(['vim', 'help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
+	if(index(['vim', 'help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	elseif (coc#rpc#ready())
+		call CocActionAsync('doHover')
+	else
+		execute '!' . &keywordprg . " " . expand('<cword>')
+	endif
 endfunction
 
 " highlight link CocHighlightText Visual
- autocmd CursorHold * silent call CocActionAsync('highlight')   
+autocmd CursorHold * silent call CocActionAsync('highlight')   
 
 "快速批量重命名"
 nmap <leader>rr <Plug>(coc-rename)
@@ -426,9 +434,9 @@ xmap <leader>f <Plug>(coc-format-selected)
 command! -nargs=0 Format :call CocAction('format')
 
 augroup mygroup
-  autocmd!
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+	autocmd!
+	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " diagnostic info
@@ -440,12 +448,12 @@ nmap <LEADER>qf <Plug>(coc-fix-current)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+	nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+	nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+	inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
+	inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
+	vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+	vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 " statusline support
@@ -464,16 +472,16 @@ command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 "定义一个函数查找路径中有没有Cmake文件，找到的话自动生成编译需要的头文件,就不会报找不到头文件的错误了，只需要执行下面定义的Gcmake即可调用此函数
 "如果是makefile项目的话，使用bear工具生成即可，cocconfig文件中说明了编译头文件路径的位置，生成的compile_commands.json也应该放在此目录下"
 function! s:generate_compile_commands()
-  if empty(glob('CMakeLists.txt'))
-    echo "Can't find CMakeLists.txt"
-    return
-  endif
-  if empty(glob('.vscode'))
-	  "沉默的生成一个.vscode文件夹"
-    execute 'silent !mkdir .vscode'
-  endif
-  execute '!cmake -DCMAKE_BUILD_TYPE=debug
-      \ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B .vscode'
+	if empty(glob('CMakeLists.txt'))
+		echo "Can't find CMakeLists.txt"
+		return
+	endif
+	if empty(glob('.vscode'))
+		"沉默的生成一个.vscode文件夹"
+		execute 'silent !mkdir .vscode'
+	endif
+	execute '!cmake -DCMAKE_BUILD_TYPE=debug
+				\ -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B .vscode'
 endfunction
 command! -nargs=0 Gcmake :call s:generate_compile_commands()
 
@@ -483,14 +491,14 @@ let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
 "定义一个函数用于在当前目录下快速生成一个.vimspector.json,这些函数本质都是判断加使用shell命令"
 function! s:generate_vimspector_conf()
-  if empty(glob( '.vimspector.json' ))
-    if &filetype == 'c' || 'cpp' 
-      !cp ~/.config/nvim/vimspector_conf/c.json ./.vimspector.json
-    elseif &filetype == 'python'
-      !cp ~/.config/nvim/vimspector_conf/python.json ./.vimspector.json
-    endif
-  endif
-  e .vimspector.json
+	if empty(glob( '.vimspector.json' ))
+		if &filetype == 'c' || 'cpp' 
+			!cp ~/.config/nvim/vimspector_conf/c.json ./.vimspector.json
+		elseif &filetype == 'python'
+			!cp ~/.config/nvim/vimspector_conf/python.json ./.vimspector.json
+		endif
+	endif
+	e .vimspector.json
 endfunction
 
 command! -nargs=0 Gvimspector :call s:generate_vimspector_conf()

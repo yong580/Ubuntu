@@ -24,7 +24,9 @@
 
 
 
-## 3、nodejs安装
+## 3、nodejs和npm安装
+
+[ubuntu安装最新版node和npm - 简书 (jianshu.com)](https://www.jianshu.com/p/f2592d106aac)
 
 
 
@@ -35,6 +37,8 @@
 
 
 ## 5、nvim安装
+
+很好的一个配置教程视频：[从零配置适合写C和C++的vim或neovim_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1dL411V75t?spm_id_from=333.999.0.0)
 
 [Neovim+Coc.nvim配置 目前个人最舒服终端编辑环境(Python&C++) - zprhhs - 博客园 (cnblogs.com)](https://www.cnblogs.com/cniwoq/p/13272746.html)
 
@@ -124,5 +128,82 @@
 
 
 
+## 14、网络配置
 
+有关linux下的网络配置文件：
 
+[(86条消息) linux--ubuntu网络配置_worthsen的博客-CSDN博客_ubuntu系统配置网络](https://blog.csdn.net/qq_38880380/article/details/99442543)
+
+### 1、使用桥接
+
+[(86条消息) 详细Ubuntu桥接模式网络配置过程_tiramisu_L的博客-CSDN博客_ubuntu桥接模式设置](https://blog.csdn.net/tiramisu_L/article/details/80557772)
+
+注意事项：
+
+[(86条消息) ubuntu16.04设置桥接模式，图文并茂，解决无法上网问题。_無荏知晓的博客-CSDN博客_ubuntu桥接模式无法上网](https://blog.csdn.net/Mr_jianfeng/article/details/81053849)
+
+校园网只有一根网线，没法分配多余的静态IP，无法使用桥接方式
+
+### 2、使用NAT
+
+直接将网络适配器中的配置选择为NAT
+
+并在VMware-》编辑-》虚拟网络编辑器-》更改设置-》选择NAT模式
+
+### 3、代理配置
+
+1. 打开网络设置，在代理一栏中添加
+
+2. 查看主机IP和代理软件中代理的端口号
+
+3. 分为http和socket，可以均配置。
+
+   ![1651314922784](README.assets/1651314922784.png)
+
+## FRP
+
+服务端：运行于服务器的一个端口，只需修改配置文件（指定IP和端口号）并运行
+
+客户端：只需配置IP（服务器的）和程序运行在服务器上的端口号和本地运行的端口号
+
+### configuration
+
+- server
+
+```
+[common]
+bind_port = <server_port>
+dashboard_port= <port_for_board>
+dashboard_user=<user_name>
+dashboard_pwd=<passwd>
+#token用于验证，保证安全性
+token=<what hell>
+```
+
+`./frps -c ./frps.ini`
+
+- client
+
+```
+[common]
+server_addr =<server_ip>
+server_port =<server_port>
+token =<what hell>
+tls_enable =true # sometimes need
+
+[RDP] # name is not important
+type = tcp # maybe http
+local_ip =127.0.0.1 #本地ip, 局域网ip
+local_port =3389 # for windows
+remote_port =<what you like>
+```
+
+`./frpc -c ./frpc.ini`
+
+- usage
+
+通过`<server_ip>:<what you like>`访问局域网
+
+### issue
+
+> 问题出现在：在云端服务器外还是有一个防火墙,需要通过网页操作打开
